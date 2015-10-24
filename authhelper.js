@@ -4,7 +4,7 @@ var credentials = {
     authority: "https://login.microsoftonline.com/common",
     client_id: "d55e0fa9-6fdf-459e-bb21-81619cda4222",
     client_secret: "SAHVk+DDEqFRwQcDk1RPl3qxBrsopYqMnvOeumtKN3Q=",
-    redirect_url: "http://localhost:5858/login"
+    redirect_url: "http://localhost:5859/login"
 };
 
 function getAuthUrl(res) {
