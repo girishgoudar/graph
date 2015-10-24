@@ -10,21 +10,20 @@ router.get('/', function(req, res, next) {
     res.redirect('/login')
   }
   else{
-    authHelper.getTokenFromRefreshToken('https://api.office.com/discovery/',req.cookies.TOKEN_CACHE_KEY,function(token){
-      var endpoint = 'https://api.office.com/discovery/v1.0/me/services'+'?$select=capability,serviceName,serviceEndpointUri,serviceResourceId';
-      getJson('api.office.com',endpoint,token.accessToken, function(json){
-        res.render('index', { title: 'Discovery services',DiscoveryServices:JSON.parse(json) });
+    authHelper.getTokenFromRefreshToken('https://graph.microsoft.com/',req.cookies.TOKEN_CACHE_KEY,function(token){
+      getJson('graph.microsoft.com','/beta/me/files',token.accessToken, function(json){
+        res.render('index', { title: 'MyFiles',files:JSON.parse(json) });
       });
-     });
+    });
   }
  });
 
 router.get('/login', function(req, res, next) {
   if(req.query.code === undefined){
-    res.render('login',{title :'login to office 365', authRedirect:authHelper.getAuthUrl('https://api.office.com/discovery/')})
+    res.render('login',{title :'login to office 365', authRedirect:authHelper.getAuthUrl('https://graph.microsoft.com/')})
   }
   else{
-    authHelper.getTokenFromCode('https://api.office.com/discovery/',req.query.code,function(token){
+    authHelper.getTokenFromCode('https://graph.microsoft.com/',req.query.code,function(token){
      res.cookie(authHelper.TOKEN_CACHE_KEY , token.refreshToken);
      res.cookie(authHelper.TENANT_CAHCE_KEY, token.tenantId) 
      res.redirect('/')
@@ -32,10 +31,10 @@ router.get('/login', function(req, res, next) {
   }
 });
 
-function getJson(host,endpoint, token, callback) {
+function getJson(host, path, token, callback) {
   var options = {
     host: host, 
-    path: endpoint, 
+    path: path, 
     method: 'GET', 
     headers: { 
       'Content-Type': 'application/json',
@@ -56,13 +55,6 @@ function getJson(host,endpoint, token, callback) {
       callback(null);
     });
   });
-  
-  
 };
 
-
-
 module.exports = router;
-
-
-
