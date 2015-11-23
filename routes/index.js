@@ -11,7 +11,7 @@ router.get('/', function(req, res, next) {
   }
   else{
     authHelper.getTokenFromRefreshToken('https://graph.microsoft.com/',req.cookies.TOKEN_CACHE_KEY1,function(token){
-      getJson('graph.microsoft.com','/beta/me/drive/root/children',token.accessToken, function(json){
+      getJson('graph.microsoft.com','/v1.0/me/drive/root/children',token.accessToken, function(json){
         res.render('index', { title: 'MyFiles',files:JSON.parse(json) });
       });
     });
