@@ -10,7 +10,7 @@ router.get('/', function(req, res, next) {
     res.redirect('/login')
   }
   else{
-    authHelper.getTokenFromRefreshToken('https://graph.microsoft.com/',req.cookies.TOKEN_CACHE_KEY1,function(token){
+    authHelper.getTokenFromRefreshToken('https://graph.microsoft.com/',req.cookies.TOKEN_CACHE_KEY,function(token){
       getJson('graph.microsoft.com','/v1.0/me/drive/root/children',token.accessToken, function(json){
         res.render('index', { title: 'MyFiles',files:JSON.parse(json) });
       });
