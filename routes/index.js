@@ -3,7 +3,6 @@ var router = express.Router();
 var authContext = require('adal-node').AuthenticationContext;
 var authHelper = require('../authHelper.js');
 var https = require('https')
-
 /* GET home page. */
 router.get('/', function(req, res, next) {
   if(req.cookies.TOKEN_CACHE_KEY === undefined){
